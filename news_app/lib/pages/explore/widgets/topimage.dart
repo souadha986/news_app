@@ -8,7 +8,8 @@ class Topimage extends StatelessWidget {
   final String authorName;
   final String date;
   final String? imageUrl;
-  const Topimage({
+  const Topimage(
+    String? urlToImage, {
     super.key,
     required this.title,
     required this.authorName,
@@ -18,34 +19,26 @@ class Topimage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      height: 292.h,
-      width: 366.w,
-      decoration: BoxDecoration(
-        color: Colors.transparent,
-        borderRadius: BorderRadius.circular(16.r),
-      ),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          ClipRRect(
-            borderRadius: BorderRadiusGeometry.circular(8.r),
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        ClipRRect(
+          borderRadius: BorderRadiusGeometry.circular(8.r),
 
-            child: CachedNetworkImage(
-              imageUrl:
-                  imageUrl ??
-                  "https://static.toiimg.com/photo/msid-109960309/109960309.jpg",
-              height: 206.h,
-              width: double.infinity,
-              fit: BoxFit.fill,
-            ),
+          child: CachedNetworkImage(
+            imageUrl:
+                imageUrl ??
+                "https://static.toiimg.com/photo/msid-109960309/109960309.jpg",
+            height: 206.h,
+            width: 366.w,
+            fit: BoxFit.fill,
           ),
-          SizedBox(height: 16.h),
-          Text(title, style: AppFonts.black18w600),
-          SizedBox(height: 12.h),
-          Text("$authorName . $date", style: AppFonts.grey12w400),
-        ],
-      ),
+        ),
+        SizedBox(height: 16.h),
+        Text(title, style: AppFonts.black18w600),
+        SizedBox(height: 12.h),
+        Text("$authorName . $date", style: AppFonts.grey12w400),
+      ],
     );
   }
 }

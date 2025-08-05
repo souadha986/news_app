@@ -39,6 +39,8 @@ dependencies:
   go_router: ^16.0.0
   cached_network_image: ^3.4.1
   easy_localization: ^3.0.8
+  dio: ^5.8.0+1
+  pretty_dio_logger: ^1.4.0
 
 dev_dependencies:
   flutter_test:

@@ -4,8 +4,6 @@ import 'package:news_app/core/styling/app_colors.dart';
 
 import 'package:news_app/core/styling/app_fonts.dart';
 
-Color color = AppColors.whiteColor;
-
 class CategoryItem extends StatelessWidget {
   final String title;
   const CategoryItem({super.key, required this.title});
@@ -13,9 +11,7 @@ class CategoryItem extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return InkWell(
-      onTap: () {
-        color = Color(0xFFE9EEFA);
-      },
+      onTap: () {},
       child: Container(
         margin: EdgeInsets.only(right: 16.w),
         alignment: Alignment.center,
