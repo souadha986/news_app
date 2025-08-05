@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:news_app/core/navigation/router_generator.dart';
+import 'package:news_app/core/styling/app_colors.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -13,7 +14,7 @@ void main() async {
       path:
           'assets/translations', // <-- change the path of the translation files
       fallbackLocale: const Locale('en'),
-      startLocale: const Locale('ar'),
+      startLocale: const Locale('en'),
       child: const MyApp(),
     ),
   );
@@ -32,7 +33,7 @@ class MyApp extends StatelessWidget {
           localizationsDelegates: context.localizationDelegates,
           supportedLocales: context.supportedLocales,
           locale: context.locale,
-          theme: ThemeData(),
+          theme: ThemeData(scaffoldBackgroundColor: AppColors.whiteColor),
           routerConfig: RouterGenerator.routes,
           debugShowCheckedModeBanner: false,
         );
