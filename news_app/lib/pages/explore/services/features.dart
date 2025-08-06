@@ -3,7 +3,7 @@ import 'package:news_app/core/networking/dio_helper.dart';
 import 'package:news_app/core/networking/endpoints.dart';
 import 'dart:developer';
 
-import 'package:news_app/pages/explore/widgets/models.dart';
+import 'package:news_app/core/networking/models.dart';
 
 class Features {
   static Future<Models?> getTopHeadlines() async {

@@ -5,6 +5,7 @@ import 'package:news_app/core/styling/app_fonts.dart';
 
 class Topimage extends StatelessWidget {
   final String title;
+  final void Function()? onTap;
   final String authorName;
   final String date;
   final String? imageUrl;
@@ -12,6 +13,7 @@ class Topimage extends StatelessWidget {
     String? urlToImage, {
     super.key,
     required this.title,
+    required this.onTap,
     required this.authorName,
     required this.date,
     this.imageUrl,
@@ -19,26 +21,29 @@ class Topimage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        ClipRRect(
-          borderRadius: BorderRadiusGeometry.circular(8.r),
+    return InkWell(
+      onTap: onTap,
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          ClipRRect(
+            borderRadius: BorderRadiusGeometry.circular(8.r),
 
-          child: CachedNetworkImage(
-            imageUrl:
-                imageUrl ??
-                "https://static.toiimg.com/photo/msid-109960309/109960309.jpg",
-            height: 206.h,
-            width: 366.w,
-            fit: BoxFit.fill,
+            child: CachedNetworkImage(
+              imageUrl:
+                  imageUrl ??
+                  "https://static.toiimg.com/photo/msid-109960309/109960309.jpg",
+              height: 206.h,
+              width: 366.w,
+              fit: BoxFit.fill,
+            ),
           ),
-        ),
-        SizedBox(height: 16.h),
-        Text(title, style: AppFonts.black18w600),
-        SizedBox(height: 12.h),
-        Text("$authorName . $date", style: AppFonts.grey12w400),
-      ],
+          SizedBox(height: 16.h),
+          Text(title, style: AppFonts.black18w600),
+          SizedBox(height: 12.h),
+          Text("$authorName . $date", style: AppFonts.grey12w400),
+        ],
+      ),
     );
   }
 }

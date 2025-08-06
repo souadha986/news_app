@@ -1,12 +1,15 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:go_router/go_router.dart';
+import 'package:news_app/core/navigation/app_routes.dart';
 import 'package:news_app/core/styling/app_colors.dart';
 import 'package:news_app/core/styling/app_fonts.dart';
 import 'package:news_app/pages/explore/widgets/article_card.dart';
 import 'package:news_app/pages/explore/widgets/category_item.dart';
-import 'package:news_app/pages/explore/widgets/features.dart';
-import 'package:news_app/pages/explore/widgets/models.dart';
+import 'package:news_app/pages/explore/services/features.dart';
+import 'package:news_app/core/networking/models.dart';
+import 'package:news_app/pages/explore/widgets/search_text_field.dart';
 import 'package:news_app/pages/explore/widgets/topimage.dart';
 
 class Explore extends StatefulWidget {
@@ -28,12 +31,7 @@ class _ExploreState extends State<Explore> {
           child: Text("explore".tr()),
         ),
         titleTextStyle: AppFonts.black32w600,
-        actions: [
-          Padding(
-            padding: EdgeInsets.symmetric(horizontal: 20.w),
-            child: IconButton(onPressed: () {}, icon: Icon(Icons.search)),
-          ),
-        ],
+        actions: [SearchTextField()],
       ),
       body: SafeArea(
         child: SingleChildScrollView(
@@ -41,11 +39,16 @@ class _ExploreState extends State<Explore> {
             future: Features.getTopHeadlines(),
             builder: (context, snapshot) {
               if (snapshot.connectionState == ConnectionState.waiting) {
-                return const Center(
-                  child: CircularProgressIndicator(color: AppColors.blackColor),
+                return SizedBox(
+                  height: MediaQuery.of(context).size.height,
+                  child: const Center(
+                    child: CircularProgressIndicator(
+                      color: AppColors.blackColor,
+                    ),
+                  ),
                 );
               }
-              ;
+
               if (snapshot.hasError) {
                 return Center(child: Text(snapshot.error.toString()));
               }
@@ -54,7 +57,7 @@ class _ExploreState extends State<Explore> {
                 if (model.totalResults == 0) {
                   return Center(child: Text("no_results".tr()));
                 } else {
-                  Column(
+                  return Column(
                     children: [
                       SizedBox(height: 16.h),
                       SizedBox(
@@ -64,11 +67,42 @@ class _ExploreState extends State<Explore> {
                           physics: const BouncingScrollPhysics(),
                           scrollDirection: Axis.horizontal,
                           children: [
-                            CategoryItem(title: "all".tr()),
-                            CategoryItem(title: "technology".tr()),
-                            CategoryItem(title: "business".tr()),
-                            CategoryItem(title: "entertainment".tr()),
-                            CategoryItem(title: "travel".tr()),
+                            CategoryItem(
+                              title: "technology".tr(),
+                              onTap: () {
+                                context.push(
+                                  AppRoutes.searchresult,
+                                  extra: "technology",
+                                );
+                              },
+                            ),
+                            CategoryItem(
+                              title: "business".tr(),
+                              onTap: () {
+                                context.push(
+                                  AppRoutes.searchresult,
+                                  extra: "business",
+                                );
+                              },
+                            ),
+                            CategoryItem(
+                              title: "entertainment".tr(),
+                              onTap: () {
+                                context.push(
+                                  AppRoutes.searchresult,
+                                  extra: "entertaiment",
+                                );
+                              },
+                            ),
+                            CategoryItem(
+                              title: "travel".tr(),
+                              onTap: () {
+                                context.push(
+                                  AppRoutes.searchresult,
+                                  extra: "travel",
+                                );
+                              },
+                            ),
                           ],
                         ),
                       ),
@@ -77,6 +111,12 @@ class _ExploreState extends State<Explore> {
                         padding: EdgeInsetsGeometry.symmetric(horizontal: 32.w),
                         child: Topimage(
                           model.articles![0].urlToImage,
+                          onTap: () {
+                            context.push(
+                              AppRoutes.article,
+                              extra: model.articles![0],
+                            );
+                          },
                           title: model.articles![0].title ?? "",
                           authorName: model.articles![0].author ?? "",
                           date: DateFormat(
@@ -86,28 +126,34 @@ class _ExploreState extends State<Explore> {
                       ),
 
                       SizedBox(height: 40.h),
-                      Expanded(
-                        child: ListView.builder(
-                          itemCount: model.articles!.length,
-                          itemBuilder: (context, index) {
-                            Article article = model.articles![index];
-                            return ArticleCard(
-                              title: article.title ?? "",
-                              authorName: article.author ?? "",
-                              date: DateFormat(
-                                'yyyy-MM-dd– kk:mm',
-                              ).format(article.publishedAt!),
-                              imageUrl: article.urlToImage,
-                            );
-                          },
-                        ),
+                      ListView.builder(
+                        shrinkWrap: true,
+                        physics: NeverScrollableScrollPhysics(),
+                        itemCount: model.articles!.length,
+                        itemBuilder: (context, index) {
+                          Article article = model.articles![index];
+                          return ArticleCard(
+                            onTap: () {
+                              context.push(AppRoutes.article, extra: article);
+                            },
+                            title: article.title ?? "",
+                            authorName: article.author ?? "",
+                            date: DateFormat(
+                              'yyyy-MM-dd– kk:mm',
+                            ).format(article.publishedAt!),
+                            imageUrl: article.urlToImage,
+                          );
+                        },
                       ),
                     ],
                   );
                 }
               }
-              ;
-              return Center(child: Text("something went wrong "));
+
+              return SizedBox(
+                height: MediaQuery.of(context).size.height,
+                child: const Center(child: Text("something went wrong")),
+              );
             },
           ),
         ),

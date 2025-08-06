@@ -7,14 +7,9 @@ import 'package:pretty_dio_logger/pretty_dio_logger.dart';
 class DioHelper {
   static Dio? dio;
   static initDio() {
-    if (dio == null) {
-      dio = Dio(
-        BaseOptions(
-          baseUrl: EndPoints.baseUrl,
-          receiveDataWhenStatusError: true,
-        ),
-      );
-    }
+    dio ??= Dio(
+      BaseOptions(baseUrl: EndPoints.baseUrl, receiveDataWhenStatusError: true),
+    );
     dio!.interceptors.add(PrettyDioLogger());
   }
 
