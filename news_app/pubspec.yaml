@@ -41,6 +41,7 @@ dependencies:
   easy_localization: ^3.0.8
   dio: ^5.8.0+1
   pretty_dio_logger: ^1.4.0
+  url_launcher: ^6.3.2
 
 dev_dependencies:
   flutter_test:

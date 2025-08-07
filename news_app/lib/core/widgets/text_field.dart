@@ -24,7 +24,7 @@ class _TextFieldsState extends State<TextFields> {
 
         decoration: InputDecoration(
           hintText: widget.title ?? "",
-          hintStyle: AppFonts.black16w400,
+          hintStyle: AppFonts.black16w400inter,
           contentPadding: EdgeInsets.symmetric(horizontal: 18.w),
           enabledBorder: OutlineInputBorder(
             borderRadius: BorderRadius.circular(8.r),

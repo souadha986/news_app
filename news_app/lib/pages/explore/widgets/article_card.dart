@@ -48,7 +48,7 @@ class ArticleCard extends StatelessWidget {
               child: CachedNetworkImage(
                 imageUrl:
                     imageUrl ??
-                    "https://static.toiimg.com/photo/msid-109960309/109960309.jpg",
+                    "https://static.vecteezy.com/system/resources/thumbnails/010/586/271/small_2x/breaking-news-background-business-or-technology-template-breaking-news-text-on-dark-blue-with-light-effect-digital-technology-tv-news-show-broadcast-design-vector.jpg",
                 height: 80.h,
                 width: 112.w,
                 fit: BoxFit.fill,

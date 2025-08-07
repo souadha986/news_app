@@ -18,6 +18,13 @@ class AppFonts {
       fontWeight: FontWeight.w600,
     ),
   );
+  static TextStyle black16w400inter = GoogleFonts.inter(
+    textStyle: TextStyle(
+      fontSize: 16.sp,
+      color: AppColors.blackColor,
+      fontWeight: FontWeight.w400,
+    ),
+  );
   static TextStyle grey12w400 = GoogleFonts.inter(
     textStyle: TextStyle(
       fontSize: 12.sp,
@@ -25,7 +32,7 @@ class AppFonts {
       fontWeight: FontWeight.w400,
     ),
   );
-  static TextStyle black16w400 = GoogleFonts.merriweather(
+  static TextStyle black16w400merriweather = GoogleFonts.merriweather(
     textStyle: TextStyle(
       fontSize: 16.sp,
       color: AppColors.blackColor,

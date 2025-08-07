@@ -35,7 +35,10 @@ class RouterGenerator {
             date: DateFormat('yyyy-MM-dd– kk:mm').format(article.publishedAt!),
             content: article.content ?? '',
             description: article.description ?? '',
-            imageUrl: article.urlToImage ?? '',
+            url: article.url,
+            imageUrl:
+                article.urlToImage ??
+                "https://static.vecteezy.com/system/resources/thumbnails/010/586/271/small_2x/breaking-news-background-business-or-technology-template-breaking-news-text-on-dark-blue-with-light-effect-digital-technology-tv-news-show-broadcast-design-vector.jpg",
           );
         },
       ),

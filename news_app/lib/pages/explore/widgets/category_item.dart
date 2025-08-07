@@ -23,7 +23,9 @@ class CategoryItem extends StatelessWidget {
         ),
         child: Text(
           title,
-          style: AppFonts.black16w400.copyWith(fontWeight: FontWeight.w600),
+          style: AppFonts.black16w400inter.copyWith(
+            fontWeight: FontWeight.w600,
+          ),
         ),
       ),
     );
