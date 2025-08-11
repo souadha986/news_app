@@ -5,7 +5,7 @@ import 'dart:developer';
 
 import 'package:news_app/core/networking/models.dart';
 
-class SearchFeatures {
+class SearchRepo {
   static Future<Models?> getTopsearchresults(String query) async {
     try {
       final response = await DioHelper.getrequest(

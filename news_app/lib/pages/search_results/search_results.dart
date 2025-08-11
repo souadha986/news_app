@@ -1,5 +1,6 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:go_router/go_router.dart';
 import 'package:news_app/core/navigation/app_routes.dart';
@@ -7,11 +8,23 @@ import 'package:news_app/core/networking/models.dart';
 import 'package:news_app/core/styling/app_colors.dart';
 import 'package:news_app/core/styling/app_fonts.dart';
 import 'package:news_app/pages/explore/widgets/article_card.dart';
-import 'package:news_app/pages/search_results/sevices/features.dart';
+import 'package:news_app/pages/search_results/Cubit/seachcubit.dart';
+import 'package:news_app/pages/search_results/Cubit/searchstates.dart';
 
-class SearchResults extends StatelessWidget {
+class SearchResults extends StatefulWidget {
   final String query;
   const SearchResults({super.key, required this.query});
+
+  @override
+  State<SearchResults> createState() => _SearchResultsState();
+}
+
+class _SearchResultsState extends State<SearchResults> {
+  @override
+  void initState() {
+    super.initState();
+    context.read<SearchCubit>().search(widget.query);
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -24,25 +37,18 @@ class SearchResults extends StatelessWidget {
         titleTextStyle: AppFonts.black18w600,
       ),
       body: SingleChildScrollView(
-        child: FutureBuilder(
-          future: SearchFeatures.getTopsearchresults(query),
-          builder: (context, snapshot) {
-            if (snapshot.connectionState == ConnectionState.waiting) {
+        child: BlocBuilder<SearchCubit, Searchstates>(
+          builder: (context, state) {
+            if (state is Loadingstate) {
               return SizedBox(
                 height: MediaQuery.of(context).size.height,
                 child: const Center(
                   child: CircularProgressIndicator(color: AppColors.blackColor),
                 ),
               );
-            }
-
-            if (snapshot.hasError) {
-              return Center(child: Text(snapshot.error.toString()));
-            }
-
-            if (snapshot.hasData) {
-              Models model = snapshot.data as Models;
-              if (model.totalResults == 0) {
+            } else if (state is Successstate) {
+              final modele = state.model;
+              if (modele.totalResults == 0) {
                 return Center(child: Text("no_results".tr()));
               } else {
                 return Column(
@@ -51,9 +57,9 @@ class SearchResults extends StatelessWidget {
                     ListView.builder(
                       shrinkWrap: true,
                       physics: NeverScrollableScrollPhysics(),
-                      itemCount: model.articles!.length,
+                      itemCount: modele.articles!.length,
                       itemBuilder: (context, index) {
-                        Article article = model.articles![index];
+                        Article article = modele.articles![index];
                         return ArticleCard(
                           onTap: () {
                             context.push(AppRoutes.article, extra: article);
@@ -70,12 +76,14 @@ class SearchResults extends StatelessWidget {
                   ],
                 );
               }
+            } else if (state is Errorstate) {
+              return Center(child: Text(state.error));
+            } else {
+              return SizedBox(
+                height: MediaQuery.of(context).size.height,
+                child: const Center(child: Text("something went wrong ")),
+              );
             }
-
-            return SizedBox(
-              height: MediaQuery.of(context).size.height,
-              child: const Center(child: Text("something went wrong ")),
-            );
           },
         ),
       ),
